@@ -15,24 +15,24 @@ var stringifyJSON = function(obj) {
   
   if (String(obj) === '[object Object]') {
     var JSONString = '{';
+    var index = 0;
     for (var i in obj) {
-      if (i === 'undefined' || 
-        obj[i] === undefined || 
-        stringifyJSON(obj[i]) === undefined) {
+      var key = stringifyJSON(i);
+      var val = stringifyJSON(obj[i]);
+      if (key === 'undefined' || val === 'undefined') {
         continue;
+      } else if (index === 0) {
+        JSONString += key + ':' + val;
+        index++;
+      } else {
+        JSONString += ',' + key + ':' + val;
       }
-      JSONString += stringifyJSON(i) + ':' + stringifyJSON(obj[i]) + ',';
-    }
-    if (JSONString.length > 1) {
-      JSONString = JSONString.substring(0, JSONString.length - 1);
     }
     return JSONString += '}';
   }
   
   if (typeof obj === 'function') {
-    if (obj() === undefined) {
-      return;
-    }
+    return stringifyJSON(obj());
   }
   
   if (typeof obj === 'string') {
