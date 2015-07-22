@@ -30,7 +30,9 @@ var stringifyJSON = function(obj) {
   }
   
   if (typeof obj === 'function') {
-    return stringifyJSON(obj());
+    if (obj() === undefined) {
+      return 'undefined';
+    }
   }
   
   if (typeof obj === 'string') {
