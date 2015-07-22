@@ -7,7 +7,7 @@ var stringifyJSON = function(obj) {
   if (Array.isArray(obj)) {
     var JSONString = '[';
     for (var i = 0; i < obj.length; i++) {
-      JSONString += i === undefined ? null : stringifyJSON(obj[i]);
+      JSONString += obj[i] === undefined ? null : stringifyJSON(obj[i]);
       JSONString += i != obj.length - 1 ? ',' : '';
     }
     return JSONString += ']';
@@ -15,18 +15,16 @@ var stringifyJSON = function(obj) {
   
   if (String(obj) === '[object Object]') {
     var JSONString = '{';
-    var index = 0;
+    var firstIndex = true;
     for (var i in obj) {
       var key = stringifyJSON(i);
       var val = stringifyJSON(obj[i]);
       if (key === 'undefined' || val === 'undefined') {
         continue;
-      } else if (index === 0) {
-        JSONString += key + ':' + val;
-        index++;
-      } else {
-        JSONString += ',' + key + ':' + val;
-      }
+      } 
+      JSONString += firstIndex === true ? '' : ',';
+      JSONString += key + ':' + val;
+      firstIndex = false;
     }
     return JSONString += '}';
   }
