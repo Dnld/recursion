@@ -7,7 +7,8 @@ var stringifyJSON = function(obj) {
   if (Array.isArray(obj)) {
     var JSONString = '[';
     for (var i = 0; i < obj.length; i++) {
-      JSONString += obj[i] === undefined ? null : stringifyJSON(obj[i]);
+      var item = stringifyJSON(obj[i]);
+      JSONString += item === 'undefined' ? null : item;
       JSONString += i != obj.length - 1 ? ',' : '';
     }
     return JSONString += ']';
