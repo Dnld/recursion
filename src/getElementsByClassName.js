@@ -4,7 +4,6 @@
 // };
 
 // But instead we're going to implement it from scratch:
-<<<<<<< HEAD
 var getElementsByClassName = function(className){
   var elementNodeReference = arguments[1] || document;
   var nodeList;
@@ -28,9 +27,4 @@ var getElementsByClassName = function(className){
       getElementsByClassName(className, nodeList[i]);
     }
   }
-=======
-var getElementsByClassName = function(className
-){
-  console.log(document)
->>>>>>> 14d1cd7273dd2f6c54b15f1a0591045532d23fb7
 };
