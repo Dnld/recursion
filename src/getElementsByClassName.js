@@ -5,24 +5,47 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
+  var elementsWithClass;
+  var classNames = className.split(' ');
+  
   var elementNodeReference = arguments[1] || document;
-  var nodeList = elementNodeReference === document ? 
-                 elementNodeReference.body.childNodes : 
-                 arguments[1].childNodes;
-  console.log(nodeList);
-  for (var i = 0; i < nodeList.length; i++) {
-      var classes = nodeList[i].classList;
-      if (classes !== undefined && classes.length > 0) {
-        console.log(classes);
-        for (var j = 0; j < classes.length; j++) {
-          console.log(classes[j]);
-          if (classes[j] == className) {
-            console.log(nodeList[i]);
+  var nodeList = elementNodeReference.childNodes;
+  var nodeListLength = nodeList.length;
+  if (nodeListLength) {
+    for (var i = 0; i < nodeList.length; i++) {
+      
+      // determines if node has a class list
+      if (nodeList[i].classList) {
+        var nodeClasses = nodeList[i].classList;
+        
+        // determines if node has class
+        for (var j = 0; j < nodeClasses.length; j++) {
+          for (var k = 0; k < classNames.length; k++) {
+            if (nodeClasses[j] === classNames[k]) {
+              if (elementsWithClass === undefined) {
+                elementsWithClass = [];
+              }
+              elementsWithClass.push(nodeList[i]);
+            }
           }
         }
       }
-    if (nodeList[i].childNodes.length > 0) {
-      getElementsByClassName(className, nodeList[i]);
+      
+      // recursive call function if node has children elements
+      if (nodeList[i].childNodes.length >= 1) {
+        var childElementsWithClass = getElementsByClassName(className, nodeList[i]);
+        if (childElementsWithClass) {
+          if (elementsWithClass === undefined) {
+            elementsWithClass = [];
+          }
+          for (var l = 0; l < childElementsWithClass.length; l++) {
+            elementsWithClass.push(childElementsWithClass[l]);
+          }
+        }
+      }
     }
   }
+  
+  return elementsWithClass;
+
 };
